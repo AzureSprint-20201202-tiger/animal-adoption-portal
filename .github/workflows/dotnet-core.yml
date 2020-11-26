@@ -24,5 +24,10 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: List out directory contents
-      run: cd /home/runner/work/animal-adoption-portal/animal-adoption-portal && ls -al
+      run: |
+          echo "Listing the contents of the GitHub workspace directory"
+          ls ${{ github.workspace }}
+          echo "Recursively listing all contents of the current directory"
+          ls -R
+
 
