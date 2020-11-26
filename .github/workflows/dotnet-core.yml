@@ -23,11 +23,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: List out directory contents
-      run: |
-          echo "Listing the contents of the GitHub workspace directory"
-          ls ${{ github.workspace }}
-          echo "Recursively listing all contents of the current directory"
-          ls -R
+    - name: Create Artifact
+      run: dotnet publish AnimalAdoption.Web.Portal -o AnimalAdoption.Web.Portal/published
+    - name: Search Artifact
+      run: ls -al ${{ github.workspace }}/AnimalAdoption.Web.Portal/published
 
 
