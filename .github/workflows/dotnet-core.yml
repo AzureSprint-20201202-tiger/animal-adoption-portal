@@ -23,6 +23,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test AnimalAdoption.Web.Portal.UnitTests --no-restore --verbosity normal
     - name: Create Artifact
       run: dotnet publish AnimalAdoption.Web.Portal -o AnimalAdoption.Web.Portal/published
     - name: Search Artifact
