@@ -19,6 +19,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
+        source-url: ${{ env.GitHubPackageFeedUrl }}
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GitHubPackageFeedUrl: https://nuget.pkg.github.com/AzureSprint-20201202-tiger/index.json
+        LogicProjectPath: ${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -33,5 +38,10 @@ jobs:
       with:
         name: Web Portal Artifact
         path: ${{ github.workspace }}/AnimalAdoption.Web.Portal/published
+    - name: Package up project
+      run: dotnet pack --configuration Release ${{ env.LogicProjectPath }}
+    - name: check pack
+      run: ls -al ${{ env.LogicProjectPath }}
+
 
 
