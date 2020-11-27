@@ -2,9 +2,11 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches: #[ master ] 
+      - '**'
   pull_request:
-    branches: [ master ]
+    branches: #[ master ]
+      - '**'
 
 jobs:
   build:
@@ -21,3 +23,13 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    - name: Create Artifact
+      run: dotnet publish AnimalAdoption.Web.Portal -o AnimalAdoption.Web.Portal/published
+    - name: Search Artifact
+      run: ls -al ${{ github.workspace }}/AnimalAdoption.Web.Portal/published
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Web Portal Artifact
+        path: ${{ github.workspace }}/AnimalAdoption.Web.Portal/published
+
+
