@@ -61,3 +61,5 @@ jobs:
           app-name: '${{ env.AzureWebAppName }}'
           publish-profile: '${{ secrets.PUBLISH_CREDENTIALS_TEST }}'
           package: '${{ env.AzureWebAppPackagePath }}'
+      - name: Display structure of downloaded files
+        run: ls -R
