@@ -1,67 +1,63 @@
 name: .NET Core
-
-on:
+'on':
   push:
-    branches: #[ master ] 
+    branches:
       - '**'
   pull_request:
-    branches: #[ master ]
+    branches:
       - '**'
-
 env:
-    NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    GitHubPackageFeedUrl: https://nuget.pkg.github.com/AzureSprint-20201202-tiger/index.json
-    LogicProjectPath: ${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic
-    AzureWebAppName: webapptesteric
-    AzureWebAppPackagePath: '.'
-
+  NUGET_AUTH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+  GitHubPackageFeedUrl: 'https://nuget.pkg.github.com/AzureSprint-20201202-tiger/index.json'
+  LogicProjectPath: '${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic'
+  AzureWebAppName: webapptesteric
+  AzureWebAppPackagePath: .
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-        source-url: ${{ env.GitHubPackageFeedUrl }}
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test AnimalAdoption.Web.Portal.UnitTests --no-restore --verbosity normal
-    - name: Create Artifact
-      run: dotnet publish AnimalAdoption.Web.Portal -o AnimalAdoption.Web.Portal/published
-    - name: Search Artifact
-      run: ls -al ${{ github.workspace }}/AnimalAdoption.Web.Portal/published
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Web Portal Artifact
-        path: ${{ github.workspace }}/AnimalAdoption.Web.Portal/published
-    - name: Package up project
-      run: dotnet pack --configuration Release ${{ env.LogicProjectPath }}
-    - name: check pack
-      run: ls -al ${{ env.LogicProjectPath }}
-    - name: Push package to GitHub registry
-      run: dotnet nuget push ${{ env.LogicProjectPath }}/**/*.nupkg --skip-duplicate
-
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
+          source-url: '${{ env.GitHubPackageFeedUrl }}'
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: >-
+          dotnet test AnimalAdoption.Web.Portal.UnitTests --no-restore
+          --verbosity normal
+      - name: Create Artifact
+        run: >-
+          dotnet publish AnimalAdoption.Web.Portal -o
+          AnimalAdoption.Web.Portal/published
+      - name: Search Artifact
+        run: 'ls -al ${{ github.workspace }}/AnimalAdoption.Web.Portal/published'
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Web Portal Artifact
+          path: '${{ github.workspace }}/AnimalAdoption.Web.Portal/published'
+      - name: Package up project
+        run: 'dotnet pack --configuration Release ${{ env.LogicProjectPath }}'
+      - name: check pack
+        run: 'ls -al ${{ env.LogicProjectPath }}'
+      - name: Push package to GitHub registry
+        run: >-
+          dotnet nuget push ${{ env.LogicProjectPath }}/**/*.nupkg
+          --skip-duplicate
 deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+  needs: build
+  runs-on: ubuntu-latest
+  steps:
     - uses: actions/download-artifact@v2
       with:
         name: AnimalAdoptionWebPortal
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.AzureWebAppName }}
-        publish-profile: ${{ secrets.PUBLISH_CREDENTIALS_TEST }}
-        package: ${{ env.AzureWebAppPackagePath }}
-
-
-
-
+        app-name: '${{ env.AzureWebAppName }}'
+        publish-profile: '${{ secrets.PUBLISH_CREDENTIALS_TEST }}'
+        package: '${{ env.AzureWebAppPackagePath }}'
