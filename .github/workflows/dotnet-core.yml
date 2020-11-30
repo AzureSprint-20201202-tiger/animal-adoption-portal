@@ -52,12 +52,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v2
         with:
-        name: AnimalAdoptionWebPortal
-    - name: Deploy to Azure WebApp
+          name: AnimalAdoptionWebPortal
+      - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
         with:
-        app-name: '${{ env.AzureWebAppName }}'
-        publish-profile: '${{ secrets.PUBLISH_CREDENTIALS_TEST }}'
-        package: '${{ env.AzureWebAppPackagePath }}'
+          app-name: '${{ env.AzureWebAppName }}'
+          publish-profile: '${{ secrets.PUBLISH_CREDENTIALS_TEST }}'
+          package: '${{ env.AzureWebAppPackagePath }}'
