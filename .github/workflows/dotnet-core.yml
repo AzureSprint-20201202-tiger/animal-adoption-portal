@@ -12,6 +12,8 @@ env:
     NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     GitHubPackageFeedUrl: https://nuget.pkg.github.com/AzureSprint-20201202-tiger/index.json
     LogicProjectPath: ${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic
+    AzureWebAppName: webapptesteric
+    AzureWebAppPackagePath: '.'
 
 jobs:
   build:
@@ -46,6 +48,19 @@ jobs:
     - name: Push package to GitHub registry
       run: dotnet nuget push ${{ env.LogicProjectPath }}/**/*.nupkg --skip-duplicate
 
+deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: AnimalAdoptionWebPortal
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AzureWebAppName }}
+        publish-profile: ${{ secrets.PUBLISH_CREDENTIALS_TEST }}
+        package: ${{ env.AzureWebAppPackagePath }}
 
 
 
