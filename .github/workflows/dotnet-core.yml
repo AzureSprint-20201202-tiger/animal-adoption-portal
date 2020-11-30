@@ -60,11 +60,11 @@ jobs:
       - name: Azure Static Web Apps Deploy
         uses: Azure/static-web-apps-deploy@v0.0.1-preview
         with:
-        azure_static_web_apps_api_token: ${{ secrets.PUBLISH_CREDENTIALS_TEST }}
-        repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for GitHub integrations (i.e. PR comments)
-        action: 'upload'
-        ###### Repository/Build Configurations - These values can be configured to match you app requirements. ######
-        app_location: '/' # App source code path
-        api_location: 'api' # Api source code path - optional
-        app_artifact_location: 'dist' # Built app content directory - optional
-        ###### End of Repository/Build Configurations ######
+          azure_static_web_apps_api_token: ${{ secrets.PUBLISH_CREDENTIALS_TEST }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for GitHub integrations (i.e. PR comments)
+          action: 'upload'
+          ###### Repository/Build Configurations - These values can be configured to match you app requirements. ######
+          app_location: '/' # App source code path
+          api_location: 'api' # Api source code path - optional
+          app_artifact_location: 'dist' # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
