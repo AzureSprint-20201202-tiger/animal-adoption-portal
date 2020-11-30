@@ -54,7 +54,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: AnimalAdoptionWebPortal
+          name: AnimalAdoption.Common.Logic
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
         with:
