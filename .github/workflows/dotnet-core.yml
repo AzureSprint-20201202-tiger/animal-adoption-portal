@@ -61,11 +61,23 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      #- name: Set Web App ACR authentication
+      #  uses: Azure/appservice-settings@v1
+      #  with:
+      #    app-name: ${{ env.AzureWebAppName }}
+      #    app-settings-json: '${{ secrets.APP_SETTINGS }}'
+      - uses: azure/get-keyvault-secrets@v1
+        with:
+          keyvault: AzureSprintKey
+          secrets: GlobalPassword
+        id: myGetSecretAction
       - name: Set Web App ACR authentication
-        uses: Azure/appservice-settings@v1
+        uses: azure/appservice-settings@v1
         with:
           app-name: ${{ env.AzureWebAppName }}
-          app-settings-json: '${{ secrets.APP_SETTINGS }}'
+          app-settings-json: |
+          [ {"name":"GlobalPassword","value":"${{ steps.myGetSecretAction.outputs.GlobalPassword }}","slotSetting":true} ]
+  
       - name: Deploy to Azure WebApp to Test
         uses: azure/webapps-deploy@v2
         with:
