@@ -64,7 +64,7 @@ jobs:
       - name: Set Web App ACR authentication
         uses: Azure/appservice-settings@v1
         with:
-          app-name: 'AzureSprintWebAppTest'
+          app-name: ${{ env.AzureWebAppName }}
           app-settings-json: '${{ secrets.APP_SETTINGS }}'
       - name: Deploy to Azure WebApp to Test
         uses: azure/webapps-deploy@v2
