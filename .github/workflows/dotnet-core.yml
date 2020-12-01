@@ -63,3 +63,12 @@ jobs:
           app-name: ${{ env.AzureWebAppName }}
           publish-profile: ${{ secrets.PUBLISH_CREDENTIALS_TEST }}
           package: ${{ env.AzureWebAppPackagePath }}
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Set Web App ACR authentication
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'AzureSprintWebAppTest'
+          app-settings-json: '${{ secrets.APP_SETTINGS }}'
