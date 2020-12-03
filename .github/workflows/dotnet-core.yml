@@ -7,6 +7,7 @@ name: .NET Core
     branches:
       - '**'
 env:
+  VERSION: 1.0.0
   NUGET_AUTH_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
   GitHubPackageFeedUrl: 'https://nuget.pkg.github.com/AzureSprint-20201202-tiger/index.json'
   LogicProjectPath: '${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic'
