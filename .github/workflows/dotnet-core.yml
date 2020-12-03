@@ -41,7 +41,7 @@ jobs:
           name: Web Portal Artifact
           path: '${{ github.workspace }}/AnimalAdoption.Web.Portal/published'
       - name: Package up project
-        run: 'dotnet pack --configuration Release ${{ env.LogicProjectPath }}'
+        run: 'dotnet pack ${{ env.LogicProjectPath }} -p:PackageVersion={{ env.VERSION }}.${{ github.run_number }}'
       - name: check pack
         run: 'ls -al ${{ env.LogicProjectPath }}'
       - name: Push package to GitHub registry
