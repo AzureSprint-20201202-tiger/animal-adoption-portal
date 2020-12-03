@@ -46,7 +46,7 @@ jobs:
       - name: check pack
         run: 'ls -al ${{ env.LogicProjectPath }}'
       - name: Push package to GitHub registry
-        run: '/home/runner/work/animal-adoption-portal/animal-adoption-portal/*.nupkg --skip-duplicate'
+        run: 'dotnet nuget push /home/runner/work/animal-adoption-portal/animal-adoption-portal/*.nupkg --skip-duplicate'
   deploy:
     needs: build
     runs-on: ubuntu-latest
